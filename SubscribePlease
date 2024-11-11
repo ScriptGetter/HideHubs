@@ -20,7 +20,7 @@ Test1.CreateTextbox("Speed", function(txt)
 end)
 
 -- Create a textbox to change the hitbox size
-Test1.CreateTextbox("Make Your Hitbox Big (10-1000)", function(txt)
+Test1.CreateTextbox("Make Your Hitbox Big (Work On PVP) (10-1000)", function(txt)
     local hitboxSize = tonumber(txt)
     
     -- Validate the size input, making sure it's within the range 10 to 1000
