@@ -1,0 +1,86 @@
+-- Load the external library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/stysscythe/script/main/LibTest.lua"))()
+
+-- Create a window titled 'HIDE'
+local Window = Library.Window('HIDE')
+
+-- Create a tab in the window
+local Test1 = Window.CreateTab('Main')
+
+-- Create a textbox for Speed input
+Test1.CreateTextbox("Speed", function(txt)
+    -- Change the player's walkspeed based on the input value
+    local speed = tonumber(txt)
+    if speed then
+        game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = speed
+        print("Speed set to: " .. speed)
+    else
+        print("Invalid speed entered!")
+    end
+end)
+
+-- Create a textbox to change the hitbox size
+Test1.CreateTextbox("Make Your Hitbox Big (10-1000)", function(txt)
+    local hitboxSize = tonumber(txt)
+    
+    -- Validate the size input, making sure it's within the range 10 to 1000
+    if hitboxSize and hitboxSize >= 10 and hitboxSize <= 1000 then
+        _G.HeadSize = hitboxSize
+        _G.Disabled = false
+        
+        -- Continuously update the hitbox size
+        game:GetService('RunService').RenderStepped:Connect(function()
+            if not _G.Disabled then return end
+            for _,v in next, game:GetService('Players'):GetPlayers() do
+                if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+                    pcall(function()
+                        v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+                        v.Character.HumanoidRootPart.Transparency = 0.7
+                        v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+                        v.Character.HumanoidRootPart.Material = "Neon"
+                        v.Character.HumanoidRootPart.CanCollide = false
+                    end)
+                end
+            end
+        end)
+        
+        print("Hitbox size set to: " .. _G.HeadSize)
+    else
+        print("Please enter a value between 10 and 1000 for the hitbox size.")
+    end
+end)
+
+-- Create a button for "ESP"
+Test1.CreateButton("ESP", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP'))()
+    print("ESP activated!")
+end)
+
+-- Create a button for "Noclip, Reset If You want to disable"
+Test1.CreateButton("Noclip", function()
+    local Noclip = nil
+    local Clip = nil
+
+    function noclip()
+        Clip = false
+        local function Nocl()
+            if Clip == false and game.Players.LocalPlayer.Character ~= nil then
+                for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                    if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+                        v.CanCollide = false
+                    end
+                end
+            end
+            wait(0.21) -- basic optimization
+        end
+        Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+    end
+
+    function clip()
+        if Noclip then Noclip:Disconnect() end
+        Clip = true
+    end
+
+    noclip() -- to toggle noclip() and clip()
+    print("Noclip activated!")
+end)
