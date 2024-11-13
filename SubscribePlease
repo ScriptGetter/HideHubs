@@ -2,7 +2,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/stysscythe/script/main/LibTest.lua"))()
 
 -- Create a window titled 'HIDE'
-local Window = Library.Window('HIDE')
+local Window = Library.Window('HIDE HUB')
 
 -- Create a tab in the window
 local Test1 = Window.CreateTab('Main')
